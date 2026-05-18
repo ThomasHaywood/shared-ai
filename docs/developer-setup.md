@@ -63,8 +63,10 @@ for d in ~/git/shared-ai/skills/*/; do
 done
 
 mkdir -p ~/.claude/agents
-for d in ~/git/shared-ai/agents/*/; do
-  ln -s "$d" ~/.claude/agents/$(basename "$d")
+for f in ~/git/shared-ai/agents/*.md; do
+  name=$(basename "$f")
+  [[ "$name" =~ ^[A-Z] ]] && continue
+  ln -s "$f" ~/.claude/agents/"$name"
 done
 ```
 

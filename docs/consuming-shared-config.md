@@ -59,18 +59,24 @@ Note: copied skills do not receive upstream updates automatically.
 
 ## 3. Agent definitions
 
-Shared agents are symlinked globally at `~/.claude/agents/shared/` and available in every repo.
+Shared agents are symlinked as individual `.md` files into `~/.claude/agents/` by the install script and are available in every repo.
 
-To reference an agent in your service `CLAUDE.md`:
+Invoke them by asking Claude directly:
 
-```markdown
-## Available agents
-
-- `/agent shared/code-reviewer` — reviews a diff for correctness, security, and style
-- `/agent shared/incident-triage` — helps triage production alerts
+```
+Review my changes using the code-reviewer agent.
 ```
 
-To add a service-specific agent, place it in the service repo's `.claude/agents/` and commit it.
+Or reference them in a skill's frontmatter:
+
+```yaml
+---
+context: fork
+agent: code-reviewer
+---
+```
+
+To add a service-specific agent, place a `.md` file in the service repo's `.claude/agents/` and commit it.
 
 ---
 
@@ -114,7 +120,7 @@ Use the user-level `~/.claude/settings.json` instead if the server is personal (
 | Service-specific rules | `<service-repo>/CLAUDE.md` | Yes |
 | Shared skills | `~/.claude/skills/shared/` (symlink) | No — developer machine only |
 | Service-specific skills | `<service-repo>/.claude/skills/<name>/SKILL.md` | Yes |
-| Shared agents | `~/.claude/agents/shared/` (symlink) | No — developer machine only |
-| Service-specific agents | `<service-repo>/.claude/agents/` | Yes |
+| Shared agents | `~/.claude/agents/<name>.md` (symlinks) | No — developer machine only |
+| Service-specific agents | `<service-repo>/.claude/agents/<name>.md` | Yes |
 | MCP templates | `~/git/shared-ai/mcp/` | Source only — copy per project |
 | MCP project config | `<service-repo>/.claude/mcp/` | Yes (no secrets) |

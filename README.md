@@ -75,7 +75,7 @@ cd ~/git/shared-ai && git pull
 ~/git/shared-ai/scripts/install.sh
 ```
 
-The install script picks up any newly added skills or agents. Subscribe to this repo's releases or changelog to know when to pull.
+Changes to existing skills and agents take effect immediately after `git pull` — the symlinks mean Claude Code always reads the latest files directly. Re-run the install script only when new skills or agents have been added. Subscribe to this repo's releases or changelog to know when to pull.
 
 ## Who maintains this
 
