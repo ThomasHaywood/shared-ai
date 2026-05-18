@@ -40,9 +40,11 @@ ln -s ~/git/shared-ai/CLAUDE.md ~/.claude/CLAUDE.md
 
 ```bash
 # Make shared commands available in all repos
+mkdir -p ~/.claude/commands
 ln -s ~/git/shared-ai/commands ~/.claude/commands/shared
 
 # Make shared agents available in all repos
+mkdir -p ~/.claude/agents
 ln -s ~/git/shared-ai/agents ~/.claude/agents/shared
 ```
 

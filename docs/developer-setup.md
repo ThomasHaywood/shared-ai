@@ -52,9 +52,11 @@ Symlink the shared commands and agents into your global Claude Code directory so
 
 ```bash
 # Shared commands — invoke as /shared/pr-checklist, /shared/add-tests, etc.
+mkdir -p ~/.claude/commands
 ln -s ~/git/shared-ai/commands ~/.claude/commands/shared
 
 # Shared agents
+mkdir -p ~/.claude/agents
 ln -s ~/git/shared-ai/agents ~/.claude/agents/shared
 ```
 
