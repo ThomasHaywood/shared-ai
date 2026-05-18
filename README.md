@@ -72,9 +72,10 @@ See [docs/claude-md-hierarchy.md](docs/claude-md-hierarchy.md) for the full hier
 
 ```bash
 cd ~/git/shared-ai && git pull
+~/git/shared-ai/scripts/install.sh
 ```
 
-Subscribe to this repo's releases or changelog to know when to pull.
+The install script picks up any newly added skills or agents. Subscribe to this repo's releases or changelog to know when to pull.
 
 ## Who maintains this
 
