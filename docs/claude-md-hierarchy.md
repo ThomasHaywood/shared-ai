@@ -14,39 +14,34 @@ All levels are active simultaneously. Claude Code merges the instructions from a
 
 ## The import mechanism
 
-Use `# @import <relative-path>` inside a `CLAUDE.md` file to pull in another file's content:
+Use `@<path>` inside a `CLAUDE.md` file to pull in another file's content:
 
 ```markdown
-# @import .claude/shared/CLAUDE.md
+@~/git/shared-ai/CLAUDE.md
 ```
 
-The imported file's content is inserted at that position. Imports are resolved relative to the file containing the `@import` directive.
+The imported file's content is inserted at that position. Imports are resolved relative to the file containing the directive, or as absolute paths.
 
-## Recommended hierarchy for service repos
+## How the shared config fits in
 
 ```
-<service-repo>/
-├── CLAUDE.md                    ← service root CLAUDE.md (imports shared, adds overrides)
-├── .claude/
-│   └── shared/                  ← git submodule: shared-ai
-│       └── CLAUDE.md            ← global conventions (this repo)
-└── src/
-    └── some-package/
-        └── CLAUDE.md            ← package-level overrides (optional)
+~/.claude/CLAUDE.md              ← imports shared-ai/CLAUDE.md (global conventions)
+         |
+         v
+<service-repo>/CLAUDE.md         ← service-specific rules only (no import needed)
+         |
+         v
+<service-repo>/src/pkg/CLAUDE.md ← package-level overrides (optional)
 ```
 
-### Service root CLAUDE.md pattern
+The shared conventions flow in via the developer's `~/.claude/CLAUDE.md`. Service repos don't need to import or reference `shared-ai` directly — they only define what's different about that service.
+
+## Recommended service root CLAUDE.md pattern
 
 ```markdown
-# @import .claude/shared/CLAUDE.md
+# <service-name>
 
----
-
-## Service-specific overrides
-
-<!-- Everything below extends or narrows the global conventions for THIS service only. -->
-
-### Architecture
+## Architecture
 
 This service is responsible for [describe responsibility].
 
@@ -54,11 +49,11 @@ It communicates with:
 - [ServiceA] via [REST / gRPC / events]
 - [ServiceB] via [REST / gRPC / events]
 
-### Local development
+## Local development
 
 [Commands to start the service locally, seed test data, etc.]
 
-### Service-specific conventions
+## Service-specific conventions
 
 [Any deviations from the global coding standards that apply only here, with rationale.]
 ```
@@ -70,14 +65,14 @@ It communicates with:
 | Platform-wide coding standards | `shared-ai/CLAUDE.md` |
 | Cross-cutting Git workflow | `shared-ai/CLAUDE.md` |
 | Platform-wide testing standards | `shared-ai/CLAUDE.md` |
+| Personal preferences (no PII) | `~/.claude/CLAUDE.md` (after the import) |
 | This service's domain model | Service root `CLAUDE.md` |
 | This service's local dev setup | Service root `CLAUDE.md` |
 | Package-specific invariants | Package-level `CLAUDE.md` |
-| Personal preferences (no PII) | `~/.claude/CLAUDE.md` |
 
 ## Conflict resolution
 
-When the shared file and a service file contradict each other, the **more specific file wins** (innermost in the directory tree). If you find yourself overriding a global convention in a service, add a comment explaining why so the deviation is intentional and visible in code review.
+When two levels contradict each other, the **more specific file wins** (innermost in the directory tree). If you find yourself overriding a global convention in a service, add a comment explaining why so the deviation is intentional and visible in code review.
 
 Example:
 

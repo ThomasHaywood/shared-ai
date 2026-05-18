@@ -1,40 +1,76 @@
 # shared-ai
 
-Shared Claude Code configuration library for the microservices platform. This repo is consumed by all service teams as a **git submodule** and provides a common baseline for AI-assisted development across the organisation.
+Shared Claude Code configuration library for the microservices platform. This repo is cloned once per developer machine and wired up at the global Claude Code level — no changes to individual service repos required.
 
 ## What lives here
 
 | Path | Purpose |
 |------|---------|
 | `CLAUDE.md` | Global conventions, coding standards, and instructions that apply to every service |
-| `agents/` | Reusable agent definitions that teams can reference or extend |
+| `agents/` | Reusable agent definitions available in all repos |
 | `commands/` | Shared slash commands available inside Claude Code sessions |
 | `mcp/` | MCP server configuration templates for common integrations |
-| `docs/` | How to consume this repo: submodule setup, CLAUDE.md hierarchy, onboarding |
+| `docs/` | How to consume this repo: developer setup, CLAUDE.md hierarchy, onboarding |
 
 ## How to consume this repo
 
-### 1. Add as a git submodule
+### 1. Clone once on your machine
 
 ```bash
-# From the root of your service repo
-git submodule add https://github.com/<org>/shared-ai .claude/shared
-git submodule update --init --recursive
+git clone https://github.com/<org>/shared-ai ~/git/shared-ai
 ```
 
-### 2. Wire up the CLAUDE.md hierarchy
+### 2. Wire up the global Claude Code config
 
-Claude Code automatically reads `CLAUDE.md` files at every directory level. Point your service's root `CLAUDE.md` at the shared one by importing it:
+Create `~/.claude/CLAUDE.md` and import the shared conventions:
 
 ```markdown
-# @import .claude/shared/CLAUDE.md
+@~/git/shared-ai/CLAUDE.md
 ```
 
-Then add your service-specific overrides below the import. See [docs/claude-md-hierarchy.md](docs/claude-md-hierarchy.md) for the full pattern.
+Claude Code loads `~/.claude/CLAUDE.md` automatically in every repo. No changes needed to individual service repos.
 
-### 3. Register shared commands and agents
+### 3. Link shared commands and agents globally
 
-Symlink or copy the `commands/` and `agents/` directories into your service's `.claude/` folder, or reference them directly. See [docs/consuming-shared-config.md](docs/consuming-shared-config.md) for options.
+```bash
+# Make shared commands available in all repos
+ln -s ~/git/shared-ai/commands ~/.claude/commands/shared
+
+# Make shared agents available in all repos
+ln -s ~/git/shared-ai/agents ~/.claude/agents/shared
+```
+
+See [docs/consuming-shared-config.md](docs/consuming-shared-config.md) for details on MCP templates and per-service setup.
+
+### 4. Add service-specific rules to each repo
+
+Each service repo should have its own `CLAUDE.md` with only service-specific additions. The global conventions are already loaded — no import needed:
+
+```markdown
+# <service-name>
+
+## Architecture
+
+This service is responsible for [describe responsibility].
+
+## Local development
+
+[Commands to start the service, seed data, etc.]
+
+## Service-specific conventions
+
+[Deviations from global standards, with rationale.]
+```
+
+See [docs/claude-md-hierarchy.md](docs/claude-md-hierarchy.md) for the full hierarchy.
+
+## Keeping your local copy up to date
+
+```bash
+cd ~/git/shared-ai && git pull
+```
+
+Subscribe to this repo's releases or changelog to know when to pull.
 
 ## Who maintains this
 
@@ -56,8 +92,8 @@ shared-ai/
 │   ├── README.md
 │   └── *.json / *.yaml            # MCP server config templates
 └── docs/
+    ├── developer-setup.md
     ├── consuming-shared-config.md
     ├── claude-md-hierarchy.md
-    ├── submodule-setup.md
     └── contributing.md
 ```
