@@ -1,0 +1,23 @@
+{
+  "_comment": "MCP server template — GitHub integration. Replace all <FILL_IN> values. Use a fine-grained personal access token scoped to the minimum permissions required.",
+  "name": "github",
+  "description": "Access to GitHub PRs, issues, and code search for the organisation's repositories",
+  "transport": {
+    "type": "stdio",
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-github"]
+  },
+  "env": {
+    "GITHUB_PERSONAL_ACCESS_TOKEN": "<FILL_IN: fine-grained PAT with contents:read, pull-requests:read, issues:read scopes>"
+  },
+  "config": {
+    "defaultOwner": "<FILL_IN: GitHub org or username, e.g. my-org>",
+    "defaultRepo": "<FILL_IN: optional default repo name>"
+  },
+  "_notes": [
+    "Use a fine-grained PAT (not a classic token) and scope it to only the repositories Claude needs.",
+    "For CI/CD integration, prefer a GitHub App installation token over a personal access token.",
+    "Do not grant write permissions unless you explicitly need Claude to create issues or PRs — and document why.",
+    "Rotate tokens on the standard rotation schedule: <FILL_IN: e.g. 90 days>."
+  ]
+}

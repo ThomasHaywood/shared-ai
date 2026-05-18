@@ -1,0 +1,23 @@
+{
+  "_comment": "MCP server template — PostgreSQL read-only access. Replace all <FILL_IN> values. Never commit real credentials; use $ENV_VAR references.",
+  "name": "postgres",
+  "description": "Read-only query access to the service's PostgreSQL database",
+  "transport": {
+    "type": "stdio",
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-postgres", "$DATABASE_URL"]
+  },
+  "env": {
+    "DATABASE_URL": "<FILL_IN: set this env var to your Postgres connection string, e.g. postgres://user:pass@host:5432/dbname>"
+  },
+  "permissions": {
+    "allowedOperations": ["SELECT"],
+    "blockedSchemas": ["pg_catalog", "information_schema"]
+  },
+  "_notes": [
+    "This template uses the official @modelcontextprotocol/server-postgres package.",
+    "For read-write access, create a separate postgres-readwrite.json and require explicit team-lead approval before enabling.",
+    "Limit the database user's privileges to SELECT on the schemas Claude needs — do not use a superuser account.",
+    "If your database requires SSL, append ?sslmode=require to the connection string."
+  ]
+}

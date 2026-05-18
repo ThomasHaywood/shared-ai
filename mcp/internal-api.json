@@ -1,0 +1,32 @@
+{
+  "_comment": "MCP server template — internal API gateway access. Used to give Claude read (or limited write) access to internal services via a service account.",
+  "name": "internal-api",
+  "description": "Call internal service APIs through the platform API gateway using service-account credentials",
+  "transport": {
+    "type": "stdio",
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-fetch"]
+  },
+  "env": {
+    "SERVICE_ACCOUNT_TOKEN": "<FILL_IN: service account token with minimum required scopes>",
+    "API_GATEWAY_BASE_URL": "<FILL_IN: internal gateway URL, e.g. https://api.internal.example.com>"
+  },
+  "config": {
+    "defaultHeaders": {
+      "Authorization": "Bearer $SERVICE_ACCOUNT_TOKEN",
+      "X-Caller-Service": "<FILL_IN: name of the calling service, for audit logging>"
+    },
+    "allowedHostPatterns": [
+      "<FILL_IN: e.g. *.internal.example.com>"
+    ],
+    "blockedPathPatterns": [
+      "<FILL_IN: e.g. /admin/*, /internal/danger/*>"
+    ]
+  },
+  "_notes": [
+    "Limit the service account to the minimum API scopes needed for Claude's tasks.",
+    "Use allowedHostPatterns and blockedPathPatterns to prevent Claude from calling arbitrary external URLs.",
+    "Service account tokens must follow the same rotation schedule as other secrets: <FILL_IN: e.g. 90 days>.",
+    "For write operations (POST/PUT/DELETE), add a comment in your service CLAUDE.md explaining the specific use case and who approved it."
+  ]
+}

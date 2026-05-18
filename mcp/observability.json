@@ -1,0 +1,26 @@
+{
+  "_comment": "MCP server template — observability platform (logs, metrics, traces). Fill in the provider-specific details for your stack.",
+  "name": "observability",
+  "description": "Query logs, metrics, and distributed traces from the platform observability stack",
+  "transport": {
+    "type": "stdio",
+    "command": "<FILL_IN: command to start your observability MCP server, e.g. npx -y @your-org/mcp-server-datadog>",
+    "args": []
+  },
+  "env": {
+    "OBSERVABILITY_API_KEY": "<FILL_IN: API key for your observability platform>",
+    "OBSERVABILITY_BASE_URL": "<FILL_IN: base URL for your platform's API, e.g. https://api.datadoghq.com>",
+    "DEFAULT_ENVIRONMENT": "<FILL_IN: e.g. production | staging>"
+  },
+  "config": {
+    "provider": "<FILL_IN: datadog | grafana | honeycomb | cloudwatch | other>",
+    "defaultTimeWindow": "1h",
+    "defaultService": "<FILL_IN: optional — pre-scope queries to a single service>"
+  },
+  "_notes": [
+    "Replace the transport.command with the MCP server for your specific observability platform.",
+    "Keep API keys scoped to read-only where possible — Claude should be querying, not modifying alert rules.",
+    "Popular open-source MCP servers for observability: check the MCP server registry at https://github.com/modelcontextprotocol/servers.",
+    "If no MCP server exists for your platform, the internal-api.json template can be adapted to call your platform's REST API directly."
+  ]
+}
