@@ -8,7 +8,7 @@ Shared Claude Code configuration library for the microservices platform. This re
 |------|---------|
 | `CLAUDE.md` | Global conventions, coding standards, and instructions that apply to every service |
 | `agents/` | Reusable agent definitions available in all repos |
-| `commands/` | Shared slash commands available inside Claude Code sessions |
+| `skills/` | Shared skills (slash commands) available inside Claude Code sessions |
 | `mcp/` | MCP server configuration templates for common integrations |
 | `docs/` | How to consume this repo: developer setup, CLAUDE.md hierarchy, onboarding |
 
@@ -36,17 +36,13 @@ ln -s ~/git/shared-ai/CLAUDE.md ~/.claude/CLAUDE.md
 @/Users/<your-username>/git/shared-ai/CLAUDE.md
 ```
 
-### 3. Link shared commands and agents globally
+### 3. Link shared skills and agents globally
 
 ```bash
-# Make shared commands available in all repos
-mkdir -p ~/.claude/commands
-ln -s ~/git/shared-ai/commands ~/.claude/commands/shared
-
-# Make shared agents available in all repos
-mkdir -p ~/.claude/agents
-ln -s ~/git/shared-ai/agents ~/.claude/agents/shared
+~/git/shared-ai/scripts/install.sh
 ```
+
+This symlinks each skill and agent into `~/.claude/` so they're available in every repo. Safe to re-run — existing links are skipped, new ones are added.
 
 See [docs/consuming-shared-config.md](docs/consuming-shared-config.md) for details on MCP templates and per-service setup.
 
@@ -93,12 +89,15 @@ shared-ai/
 ├── agents/
 │   ├── README.md
 │   └── *.md                       # Agent definitions
-├── commands/
+├── skills/
 │   ├── README.md
-│   └── *.md                       # Slash command definitions
+│   └── skill-name/
+│       └── SKILL.md               # Skill definition (+ optional supporting files)
 ├── mcp/
 │   ├── README.md
 │   └── *.json / *.yaml            # MCP server config templates
+├── scripts/
+│   └── install.sh                 # One-command developer machine setup
 └── docs/
     ├── developer-setup.md
     ├── consuming-shared-config.md

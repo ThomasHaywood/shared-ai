@@ -46,25 +46,35 @@ Create `~/.claude/CLAUDE.md` using an absolute path (`~` is not expanded by Clau
 
 ---
 
-## Step 3: Link shared commands and agents
+## Step 3: Link shared skills and agents
 
-Symlink the shared commands and agents into your global Claude Code directory so they're available in every repo:
+Run the install script — it creates all the symlinks in one go and is safe to re-run:
 
 ```bash
-# Shared commands — invoke as /shared/pr-checklist, /shared/add-tests, etc.
-mkdir -p ~/.claude/commands
-ln -s ~/git/shared-ai/commands ~/.claude/commands/shared
-
-# Shared agents
-mkdir -p ~/.claude/agents
-ln -s ~/git/shared-ai/agents ~/.claude/agents/shared
+~/git/shared-ai/scripts/install.sh
 ```
+
+Or do it manually if you prefer:
+
+```bash
+mkdir -p ~/.claude/skills
+for d in ~/git/shared-ai/skills/*/; do
+  ln -s "$d" ~/.claude/skills/$(basename "$d")
+done
+
+mkdir -p ~/.claude/agents
+for d in ~/git/shared-ai/agents/*/; do
+  ln -s "$d" ~/.claude/agents/$(basename "$d")
+done
+```
+
+Skills are invoked directly by name: `/add-tests`, `/pr-checklist`, etc.
 
 ---
 
 ## Step 4: Verify the setup
 
-Open Claude Code in any service repo and check `/help` — shared commands should appear under the `shared/` namespace.
+Open Claude Code in any repo and try `/add-tests` — it should autocomplete and run.
 
 ---
 
@@ -72,9 +82,10 @@ Open Claude Code in any service repo and check `/help` — shared commands shoul
 
 ```bash
 cd ~/git/shared-ai && git pull
+~/git/shared-ai/scripts/install.sh  # links any newly added skills or agents
 ```
 
-Subscribe to this repo's releases or the team changelog to know when a pull is warranted.
+Subscribe to this repo's releases or the team changelog to know when to pull.
 
 ---
 
@@ -82,7 +93,7 @@ Subscribe to this repo's releases or the team changelog to know when a pull is w
 
 | Problem | Fix |
 |---------|-----|
-| Shared commands don't appear in `/help` | Check that the symlink target exists: `ls -la ~/.claude/commands/shared` |
+| Skill doesn't appear | Check the symlink exists: `ls -la ~/.claude/skills/<skill-name>` |
 | Global CLAUDE.md not loading | Confirm the file exists at `~/.claude/CLAUDE.md` and the import path is correct |
 | Import path not resolving | Use an absolute path: `@/Users/<you>/git/shared-ai/CLAUDE.md` instead of `~` |
 | Personal preferences conflict with shared rules | Place your additions after the `@` import line — the later content takes precedence |

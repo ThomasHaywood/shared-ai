@@ -30,30 +30,30 @@ See [claude-md-hierarchy.md](claude-md-hierarchy.md) for how Claude Code merges 
 
 ---
 
-## 2. Slash commands
+## 2. Skills
 
-Shared commands are symlinked globally at `~/.claude/commands/shared/` (set up in [developer-setup.md](developer-setup.md)) and available in every repo.
+Shared skills are symlinked globally at `~/.claude/skills/shared/` (set up in [developer-setup.md](developer-setup.md)) and available in every repo.
 
 Invoke them as: `/shared/pr-checklist`, `/shared/add-tests`, etc.
 
-**To add a service-specific command** that doesn't belong in shared-ai, add it to the service repo's `.claude/commands/`:
+**To add a service-specific skill** that doesn't belong in shared-ai, add it to the service repo's `.claude/skills/`:
 
 ```bash
 # From service repo root
-mkdir -p .claude/commands
-# Create .claude/commands/my-command.md
+mkdir -p .claude/skills/my-skill
+# Create .claude/skills/my-skill/SKILL.md
 ```
 
 These are committed to the service repo and only available when working in that repo.
 
-**To customise a shared command** for a specific service:
+**To customise a shared skill** for a specific service:
 
 ```bash
-cp ~/.claude/commands/shared/add-tests.md .claude/commands/add-tests.md
+cp -r ~/.claude/skills/shared/add-tests .claude/skills/add-tests
 # Edit the copy to suit this service
 ```
 
-Note: copied commands do not receive upstream updates automatically.
+Note: copied skills do not receive upstream updates automatically.
 
 ---
 
@@ -112,8 +112,8 @@ Use the user-level `~/.claude/settings.json` instead if the server is personal (
 |-------------|----------|------------|
 | Global conventions | `~/.claude/CLAUDE.md` (imports shared-ai) | No — developer machine only |
 | Service-specific rules | `<service-repo>/CLAUDE.md` | Yes |
-| Shared commands | `~/.claude/commands/shared/` (symlink) | No — developer machine only |
-| Service-specific commands | `<service-repo>/.claude/commands/` | Yes |
+| Shared skills | `~/.claude/skills/shared/` (symlink) | No — developer machine only |
+| Service-specific skills | `<service-repo>/.claude/skills/<name>/SKILL.md` | Yes |
 | Shared agents | `~/.claude/agents/shared/` (symlink) | No — developer machine only |
 | Service-specific agents | `<service-repo>/.claude/agents/` | Yes |
 | MCP templates | `~/git/shared-ai/mcp/` | Source only — copy per project |
