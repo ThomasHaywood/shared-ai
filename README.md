@@ -22,13 +22,19 @@ git clone https://github.com/<org>/shared-ai ~/git/shared-ai
 
 ### 2. Wire up the global Claude Code config
 
-Create `~/.claude/CLAUDE.md` and import the shared conventions:
+Claude Code loads `~/.claude/CLAUDE.md` automatically in every repo.
 
-```markdown
-@~/git/shared-ai/CLAUDE.md
+**Simplest — symlink it:**
+
+```bash
+ln -s ~/git/shared-ai/CLAUDE.md ~/.claude/CLAUDE.md
 ```
 
-Claude Code loads `~/.claude/CLAUDE.md` automatically in every repo. No changes needed to individual service repos.
+**Or import it** if you want personal additions (note: use an absolute path, `~` is not expanded by Claude Code's import parser):
+
+```markdown
+@/Users/<your-username>/git/shared-ai/CLAUDE.md
+```
 
 ### 3. Link shared commands and agents globally
 

@@ -22,18 +22,20 @@ The location (`~/git/shared-ai`) is a convention — you can use any stable path
 
 ## Step 2: Wire up the global CLAUDE.md
 
-Create `~/.claude/CLAUDE.md` if it doesn't exist, then import the shared conventions:
+Claude Code loads `~/.claude/CLAUDE.md` automatically in every repo on your machine.
 
-```markdown
-@~/git/shared-ai/CLAUDE.md
+**Option A — symlink (simplest):**
+
+```bash
+ln -s ~/git/shared-ai/CLAUDE.md ~/.claude/CLAUDE.md
 ```
 
-Claude Code loads `~/.claude/CLAUDE.md` automatically in every repo on your machine. The shared conventions are now active everywhere without touching any service repo.
+**Option B — import, if you want personal additions alongside the shared config:**
 
-If you already have a `~/.claude/CLAUDE.md` with personal preferences, add the import at the top:
+Create `~/.claude/CLAUDE.md` using an absolute path (`~` is not expanded by Claude Code's import parser):
 
 ```markdown
-@~/git/shared-ai/CLAUDE.md
+@/Users/<your-username>/git/shared-ai/CLAUDE.md
 
 ---
 
@@ -81,4 +83,4 @@ Subscribe to this repo's releases or the team changelog to know when a pull is w
 | Shared commands don't appear in `/help` | Check that the symlink target exists: `ls -la ~/.claude/commands/shared` |
 | Global CLAUDE.md not loading | Confirm the file exists at `~/.claude/CLAUDE.md` and the import path is correct |
 | Import path not resolving | Use an absolute path: `@/Users/<you>/git/shared-ai/CLAUDE.md` instead of `~` |
-| Personal preferences conflict with shared rules | Place your additions after the `@import` line — the later content takes precedence |
+| Personal preferences conflict with shared rules | Place your additions after the `@` import line — the later content takes precedence |

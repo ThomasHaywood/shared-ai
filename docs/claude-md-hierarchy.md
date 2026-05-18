@@ -17,10 +17,10 @@ All levels are active simultaneously. Claude Code merges the instructions from a
 Use `@<path>` inside a `CLAUDE.md` file to pull in another file's content:
 
 ```markdown
-@~/git/shared-ai/CLAUDE.md
+@/Users/<your-username>/git/shared-ai/CLAUDE.md
 ```
 
-The imported file's content is inserted at that position. Imports are resolved relative to the file containing the directive, or as absolute paths.
+The imported file's content is inserted at that position. Use absolute paths — `~` is not expanded by Claude Code's import parser.
 
 ## How the shared config fits in
 
